@@ -35,9 +35,9 @@ async def root():
 
 @app.post("/users/favourites/{favourite_index}")
 async def create_movie_for_user(favourite_index: int, db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
-    favourites = crud.get_favourites_by_index(db, favourite_index=favourite_index)
+    favourites = crud.get_favourites_by_index(db, favourite_index=favourite_index, owner_id=current_user.id)
     if favourites:
-        raise HTTPException(status_code=400, detail="Email already registered")
+        raise HTTPException(status_code=400, detail="Pokemon Already Favourited")
     return crud.create_user_favourites(db=db, favourite_index=favourite_index, user_id=current_user.id)
 
 @app.get("/favourites/{user_id}/",response_model=List[schemas.Favourites])

@@ -58,15 +58,12 @@ def create_user_favourites(db: Session, favourite_index: int, user_id: str):
     return db_favourite
 
 def delete_favourites(db: Session, favourite_index: int, owner_id: str):
-    favourite = db.query(models.Favourites).filter(models.Favourites.favourite_index == favourite_index).filter(models.Favourites.owner_id == owner_id).delete()
+    favourite = db.query(models.Favourites).filter(models.Favourites.favourite_index == favourite_index).delete()
     db.commit()
     return favourite
 
-def get_favourites_by_index(db: Session, favourite_index: int):
-    return db.query(models.Favourites).filter(models.Favourites.favourite_index == favourite_index).first()
-
-
-
+def get_favourites_by_index(db: Session, favourite_index: int, owner_id: str):
+    return db.query(models.Favourites).filter(models.Favourites.favourite_index == favourite_index).filter(models.Favourites.owner_id == owner_id).first()
 
 def update_user_image(db: Session, user_id: str , userImage: bytes):
     db_user = db.query(models.User).filter(models.User.id == user_id).update({
