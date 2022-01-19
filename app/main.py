@@ -57,6 +57,13 @@ async def delete_ticket_pnc(favourite_index : int, db: Session = Depends(deps.ge
 
 ##user
 
+@app.post("/profile/image")
+async def edit_user_image(image: UploadFile = File(...), db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
+    readImage = image.file.read()
+    userImage = base64.encodestring(readImage)
+    db_user = crud.update_image(db, email=current_user.email, userImage=userImage)
+    return db_user
+
 @app.post("/profile/edit", response_model=schemas.User)
 async def edit_profile(user: schemas.UserUpdate, db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)) -> Any:
     return crud.update_user(db=db, user=user, email=user.email)

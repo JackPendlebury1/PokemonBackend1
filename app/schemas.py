@@ -33,7 +33,6 @@ class UserUpdateImage(UserBase):
 class User(UserBase):
     id: Optional[str] = None
     created_at  : Optional[str] = None
-    hashed_password: Optional[str] = None
     userImage : Optional[bytes] = None
     favourites: List[Favourites] = []
 

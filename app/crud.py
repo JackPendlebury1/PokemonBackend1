@@ -44,6 +44,13 @@ def update_user(db: Session, user: schemas.UserUpdate, email: str):
     db.commit()
     return db_user
 
+def update_image(db: Session, email :str, userImage: bytes):
+    db_user = db.query(models.User).filter(models.User.email == email).update({
+        'userImage' : userImage
+    })
+    db.commit()
+    return db_user
+
 def get_favourites(db: Session):
     return db.query(models.Favourites).all()
 
